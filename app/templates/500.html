@@ -1,9 +1,28 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {%block styles %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{url_for('static', filename='quote.css')}}"
+/>
+<style>
+  html {
+    background: url(https://images.unsplash.com/photo-1564457461758-8ff96e439e83?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ)
+      no-repeat center center fixed;
+  }
 
-{% block app_content %}
+  .quote {
+    color: #000000;
+  }
+</style>
 
-  <h1>Een onverwachte fout heeft plaatsgevonden</h1>
-  <p>De beheerder is hiervan op de hoogte gesteld.</p> 
-  <p><a href="{{ url_for('core.index') }}">Terug</a></p>
+{% endblock %} {% block app_content %}
+<div id="fb-root"></div>
+
+<div class="page-wrap" style="background: rgba(255, 255, 255, 0.6) ;">
+  <p class="quote">
+    Een overwachte fout heeft opgetreden <br />
+    <a href="{{ url_for('core.index') }}">Terug</a>
+  </p>
+</div>
 
 {% endblock %}
