@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_share import Share
 
 #first create extension instances, which will be initialised in create_app
 db = SQLAlchemy()
@@ -11,6 +12,7 @@ migrate = Migrate()
 login = LoginManager()
 login.login_view='auth.login'
 bootstrap = Bootstrap()
+share = Share()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -21,6 +23,7 @@ def create_app(config_class=Config):
     migrate.init_app(app,db)
     login.init_app(app)
     bootstrap.init_app(app)
+    share.init_app(app)
 
     #register the blueprints
     from app.auth import bp as auth_bp

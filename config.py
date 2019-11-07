@@ -1,15 +1,31 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
-#TODO dotenv
-class Config():
-    SECRET_KEY = os.environ.get('SECRET_KEY') or "this-is-ricks-secret"
-    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS=False
+import nltk
 
-    MAIL_SERVER=os.environ.get('MAIL_SERVER')
-    MAIL_PORT=int(os.environ.get('MAIL_PORT') or 25)
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
-    MAIL_USERNAME= os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD= os.environ.get('MAIL_PASSWORD')
-    ADMINS = ['r.prins@mulierinstituut.nl']
+basedir = os.path.abspath(os.path.dirname(__file__))
+# TODO dotenv
+class Config:
+    NLTK_DATA_DIR = os.path.join(basedir, "nltk_data")
+    if not os.path.exists(NLTK_DATA_DIR):
+        os.makedirs(NLTK_DATA_DIR)
+        # Download packages and store in directory above
+        nltk.download("punkt", download_dir=NLTK_DATA_DIR)
+        nltk.download("averaged_perceptron_tagger", download_dir=NLTK_DATA_DIR)
+    nltk.data.path.append(NLTK_DATA_DIR)
+    SECRET_KEY = os.environ.get("SECRET_KEY") or "this-is-ricks-secret"
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DATABASE_URL"
+    ) or "sqlite:///" + os.path.join(basedir, "app.db")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    MAIL_SERVER = os.environ.get("MAIL_SERVER")
+    MAIL_PORT = int(os.environ.get("MAIL_PORT") or 25)
+    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS") is not None
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    ADMINS = ["r.prins@mulierinstituut.nl"]
+
+    STANDARD_IMAGE = (
+        "https://images.unsplash.com/photo-1549619856-ac562a3ed1a3?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ",
+        "#DEE1E5",
+        "lNeIjS1rXus",
+    )
