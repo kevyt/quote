@@ -35,12 +35,9 @@ def get_api_data(url, headers={}):
 
 
 def get_image_from_unsplash_api(endpoint):
-    # TODO add client ID in config (.env)
     return get_api_data(
         f"https://api.unsplash.com/{endpoint}",
-        {
-            "Authorization": "Client-ID ccc258eaa8a4ad1d57c279a539fdd1b68106938cd7832448cacb75a9fe8edba8"
-        },
+        {"Authorization": f"Client-ID {current_app.config['UNSPLASH_API_KEY']}"},
     )
 
 
