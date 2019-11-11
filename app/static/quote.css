@@ -1,45 +1,54 @@
 * {
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-background: url({{payload.image}}) no-repeat center center fixed;
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .page-wrap {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-margin: auto;
-padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: 20px;
+}
+
+
+.hamburger {
+    position: fixed;
+    top: 0%;
+    right: 0%;
+    width: 100%;
+    margin: auto;
+    padding: 20px;
 }
 
 .quote {
-font: Georgia, Serif;
-text-align: center;
-font-size: 48px;
-margin: 0 0 30px 0;
-text-indent: 40px;
-opacity: 1;
-filter: alpha(opacity=100);
-color: {{ payload.font_colour }};
+    font: Georgia, Serif;
+    text-align: center;
+    font-size: 48px;
+    margin: 0 0 30px 0;
+    text-indent: 40px;
+    opacity: 1;
+    filter: alpha(opacity=100);
 }
 
-.socials {
-text-align: center;
-opacity: 1;
+.controls {
+    text-align: center;
+    opacity: 1;
+    line-height: 10px;
 }
-.twitter-share-button[style] { vertical-align: text-bottom !important; }
+
 
 @media screen and (min-width: 320px) {
 .quote {
-    font-size: calc(24px + 6 * ((100vw - 320px) / 680));
+    font-size: calc(18px + 6 * ((100vw - 320px) / 680));
 }
 }
 @media screen and (min-width: 1000px) {

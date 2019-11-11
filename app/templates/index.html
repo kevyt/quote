@@ -1,32 +1,42 @@
 {% extends "base.html" %} 
 
 {%block styles %}
-{{ super() }}
-<style>
 
+{{ super() }}
+
+<style>
   html {
     background: url({{payload.image}}) no-repeat center center fixed;
   }
 
-  .quote {
+  .quote, .quote-menu {
     color: {{ payload.font_colour }};
   }
-
- 
 </style>
 
 {% endblock %} 
 
 {% block app_content %}
+
 <div id="fb-root"></div>
 
 <div class="page-wrap" style="background: rgba({{ payload.image_colour_r }}, {{ payload.image_colour_g }}, {{ payload.image_colour_b }}, 0.6) ;">
+  
   <p class="quote">
-    {{ payload.quote }} <br /><br />
-    <i> &mdash; {{ payload.author }}</i
-    ><br /><br />
+    {{ payload.quote }} 
+    <br /><br />
+    <i> &mdash; {{ payload.author }}</i>
+    <br />
 
-    <div class="socials">
+    <div class="controls">
+        <a href="{{url_for("core.index")}}" class="glyphicon glyphicon-random" style="color: {{payload.font_colour}}; vertical-align: top;"></a>
+
+        {% if not current_user.is_anonymous %}
+          <a onclick="save_quote()" class="glyphicon glyphicon-save" style="color: {{payload.font_colour}}; cursor: pointer; vertical-align: top;""> </a>
+        {% endif %}
+        <div id="userfeedback" class="quote-menu"></div>
+
+        <br>
       <a
         href="https://twitter.com/share?ref_src=twsrc%5Etfw"
         class="twitter-share-button"
@@ -38,9 +48,47 @@
 
       <div class="fb-share-button" data-href="{{ payload.url }}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ payload.url }}%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a></div>
       
-      <a href="{{url_for("core.index")}}" class="fas fa-random" style="color: {{payload.font_colour}}"></a>
+ 
+
     </div>
   </p>
 </div>
+
+<div id="quote_properties" data-quote_id="{{payload.quote_id}}" data-image_id="{{payload.image_id}}" data-quote="{{payload.quote}}" data-author="{{payload.author}}"></div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script
+  async
+  defer
+  crossorigin="anonymous"
+  src="https://connect.facebook.net/nl_NL/sdk.js#xfbml=1&version=v5.0"
+></script>
+<script
+  async
+  src="https://platform.twitter.com/widgets.js"
+  charset="utf-8"
+></script>
+
+<script language="javascript">
+function save_quote() {
+  $.post('/save', {
+    'quote_id': $('#quote_properties').data('quote_id'),
+    'image_id': $('#quote_properties').data('image_id'),
+    'quote': $('#quote_properties').data('quote'),
+    'author': $('#quote_properties').data('author')
+  }).done(function(response) {
+    if (response['error']) {
+      $('#userfeedback').text(response['error']);
+    } else {
+      $('#userfeedback').text('Quote saved');
+    }
+  }).fail(function() {
+    $('#userfeedback').text('Could not save quote');
+  });
+};
+</script>
 
 {% endblock %}

@@ -1,9 +1,27 @@
-{% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block
-app_content %}
-<h1>Login</h1>
-<div class="row">
-  <div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-  </div>
+{% extends "base.html" %} 
+{% import 'bootstrap/wtf.html' as wtf %}  
+
+{% block styles %}
+{{ super() }}
+
+<style>
+  /* html {
+    background: url(https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ) no-repeat center center fixed;
+  } */
+  html {
+    background: url(https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=3080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ%27,) no-repeat center center fixed;
+  }
+</style>
+
+{% endblock %} 
+
+{% block app_content %}
+
+<div class="page-wrap" style="background: rgba(255,255,255, 0.6) ;">
+  
+  <h1>Login</h1>
+
+  {{ wtf.quick_form(form) }}
 </div>
+
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+
+{% block app_content %}
+
+{% for quote in payload.quotes %}
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+             {{quote.quote}} <br>
+             <i>&mdash; {{ quote.author}} </i> <br>
+             <a href="{{url_for('core.index', quote_id=quote.quote_id, image_id=quote.image_id)}}"><i class="glyphicon glyphicon-eye-open"></i> View </a>
+        </div>
+    </div>
+
+{% endfor %}
+
+{% endblock %}

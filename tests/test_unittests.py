@@ -14,6 +14,8 @@ from app.core.imageprocessing import (
     get_image_by_id,
 )
 
+from app.core.routes import is_valid_request
+
 """
 For some patching we need to setup and application context
 """
@@ -180,3 +182,40 @@ class TestPerceivedBrighness(unittest.TestCase):
         result = get_perceived_brightness(input)
         expected = 0
         self.assertEqual(result, expected)
+
+class TestValidRequest(unittest.TestCase):
+    """Tests request validator"""
+
+    def test_request_validator_happy1(self):
+        """All keys are presents"""
+        input_request = {'test': 0, 'key': 0}
+        input_keys = ['test', 'key']
+        result = is_valid_request(input_request, input_keys)
+        expected = True
+        self.assertEqual(result, expected)
+
+    def test_request_validator_happy2(self):
+        """2 of 3 keys are required and presents"""
+        input_request = {'test': 0, 'key': 0, 'another_key': 0}
+        input_keys = ['test', 'key']
+        result = is_valid_request(input_request, input_keys)
+        expected = True
+        self.assertEqual(result, expected)
+    
+    def test_request_validator_unhappy1(self):
+        """Key is missing"""
+        input_request = {'test': 0, 'key': 0, 'another_key': 0}
+        input_keys = ['foo', 'key']
+        result = is_valid_request(input_request, input_keys)
+        expected = False
+        self.assertEqual(result, expected)
+
+    @params("bla", 0, {'dd': 0})
+    def test_request_validator_unhappy2(self, input_keys):
+        """TypeError raised if input_keys not list"""
+        input_request = {'test': 0, 'key': 0, 'another_key': 0}
+        with self.assertRaises(TypeError) as error:
+            is_valid_request(input_request, input_keys)
+        self.assertTrue(
+            "Keys must be of type list" in error.exception.args
+        )

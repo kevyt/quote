@@ -10,30 +10,32 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
 from app.models import User
 
+
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    '''
+    """
     Route processing login
     If endpoint for which authentication is needed was hit first,
     user will be referred to that endpoint after login
-    '''
+    """
     if current_user.is_authenticated:
         return redirect(url_for("core.index"))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        
+
         if user is None or not user.check_password(form.password.data):
             flash("Ongeldige gebruikersnaam of wachtwoord")
             return redirect(url_for("auth.login"))
         login_user(user, remember=form.remember_me.data)
 
         next_page = request.args.get("next")
-        
         if not next_page or url_parse(next_page).netloc != "":
             next_page = url_for("core.index")
+        if 'quote_id' in request.args:
+            next_page = url_for("core.index", quote_id=request.args['quote_id'], image_id=request.args['image_id'])
         return redirect(next_page)
-        
+
     return render_template("login.html", title="Aanmelden", form=form)
 
 
@@ -45,13 +47,13 @@ def logout():
 
 @bp.route("/register", methods=["GET", "POST"])
 def register():
-    '''
+    """
     Route to register user
     If user is already authenticated, user will be referred to index
     Otherwise, form will be displayed
     On registration password will be hashed
     On succesful registration, user will be referred to login page
-    '''
+    """
     if current_user.is_authenticated:
         return redirect(url_for("core.index"))
     form = RegistrationForm()

@@ -1,10 +1,7 @@
-# standard imports
 from datetime import datetime
 
-# flask imports
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect, request, jsonify
 
-# from flask_wtf import Form
 from flask_login import current_user, login_required
 
 from app.core import bp
@@ -19,7 +16,7 @@ from app.core.imageprocessing import (
 )
 from app.core.quoteprocessing import get_nouns_from_quote
 
-from app.models import User
+from app.models import User, Quote
 
 
 @bp.before_request
@@ -50,38 +47,113 @@ def index(quote_id=None, image_id=None):
         font_colour - font colour (black or white) based on brightness of dominant image colour
 
     """
-    if current_user.is_authenticated:
-        payload = "Je bent authenticated"
+    if quote_id and image_id:
+        quote, author, quote_id = get_quote(f"quotes/{quote_id}")
+        image, image_colour, image_id = get_image_by_id(image_id)
     else:
-        if quote_id and image_id:
-            quote, author, quote_id = get_quote(f"quotes/{quote_id}")
-            image, image_colour, image_id = get_image_by_id(image_id)
-        else:
-            quote, author, quote_id = get_quote()
-            nouns = get_nouns_from_quote(quote)
-            image, image_colour, image_id = get_matching_image(nouns)
+        quote, author, quote_id = get_quote()
+        nouns = get_nouns_from_quote(quote)
+        image, image_colour, image_id = get_matching_image(nouns)
 
-        r, g, b = transform_hex_to_rgb(image_colour)
-        font_colour = get_font_colour(image_colour)
+    r, g, b = transform_hex_to_rgb(image_colour)
+    font_colour = get_font_colour(image_colour)
 
-        payload = {
-            "url": url_for(
-                "core.index", quote_id=quote_id, image_id=image_id, _external=True,
-            ),
-            "image": image,
-            "quote": quote,
-            "author": author,
-            "image_colour_r": r,
-            "image_colour_g": g,
-            "image_colour_b": b,
-            "font_colour": font_colour,
-        }
+    payload = {
+        "url": url_for(
+            "core.index", quote_id=quote_id, image_id=image_id, _external=True,
+        ),
+        "image": image,
+        "image_id": image_id,
+        "quote_id": quote_id,
+        "quote": quote,
+        "author": author,
+        "image_colour_r": r,
+        "image_colour_g": g,
+        "image_colour_b": b,
+        "font_colour": font_colour,
+    }
 
-    return render_template("index.html", title="Home", payload=payload)
+    return render_template("index.html", image_view=True, payload=payload)
 
 
-# @bp.route("/user/<username>")
-# @login_required
-# def user(username):
-#     user = User.query.filter_by(username=username).first_or_404()
-#     return render_template("user.html", user=user)
+@login_required
+@bp.route("/myquotes")
+def myquotes():
+    """
+    The quote-drawer, gives a plain overview of saved quotes.
+
+    Authentication needed
+    """
+    payload = dict()
+    payload["quotes"] = Quote.query.filter_by(user=current_user)
+    return render_template("myquotes.html", payload=payload)
+
+
+def is_valid_request(request_args, keys):
+    """
+    Helper function to check valid request
+
+    args:
+        request_args (e.g. request.form, request.args, request.args_list)
+        keys: list of keys
+
+    raises:
+        TypeError, if keys is not list
+
+    returns: bool whether request has keys
+    """
+    if type(keys) != list:
+        raise TypeError("Keys must be of type list")
+
+    for key in keys:
+        if key not in request_args:
+            return False
+    return True
+
+
+@login_required
+@bp.route("/save", methods=["POST"])
+def save_quote():
+    """
+    Endpoint to save quote; called by js-function.
+
+    Args:
+        quote_id (str): id of quote
+        image_id (str): id of image
+        quote (str): quote (English language) to be processed
+        author (str): author name
+
+    Returns succes or failure
+
+    For now, a manual check on constraints (check uniqueness), because
+    SQLlite does not support these constrains.
+
+    Authentication needed
+    """
+    if not is_valid_request(request.form, ["quote_id", "image_id", "quote", "author"]):
+        return jsonify({"error": "Could not save quote, due to technical reasons"})
+    quote_id = request.form["quote_id"]
+    image_id = request.form["image_id"]
+    quote = request.form["quote"]
+    author = request.form["author"]
+
+    check_uniqueness = (
+        Quote.query.filter_by(user=current_user)
+        .filter_by(quote_id=quote_id)
+        .filter_by(image_id=image_id)
+        .count()
+    )
+
+    if check_uniqueness == 0:
+        quote = Quote(
+            quote_id=quote_id,
+            image_id=image_id,
+            quote=quote,
+            author=author,
+            user=current_user,
+        )
+        db.session.add(quote)
+        db.session.commit()
+        return jsonify({"succes": "Quote saved"})
+    else:
+        return jsonify({"error": "Quote already saved"})

@@ -1,12 +1,17 @@
-{% extends "base.html" %} {%block styles %}
+{% extends "base.html" %} 
+
+{%block styles %} 
+{{ super() }}
+
 <link
   rel="stylesheet"
   type="text/css"
   href="{{url_for('static', filename='quote.css')}}"
 />
+
 <style>
   html {
-    background: url(https://images.unsplash.com/photo-1519242220831-09410926fbff?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ%27)
+    background: url(https://images.unsplash.com/photo-1519242220831-09410926fbff?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2080&fit=max&ixid=eyJhcHBfaWQiOjk4NzE0fQ%27)
       no-repeat center center fixed;
   }
 
@@ -15,7 +20,9 @@
   }
 </style>
 
-{% endblock %} {% block app_content %}
+{% endblock %} 
+
+{% block app_content %}
 <div id="fb-root"></div>
 
 <div class="page-wrap" style="background: rgba(255, 255, 255, 0.6) ;">

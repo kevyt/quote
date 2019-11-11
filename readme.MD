@@ -2,6 +2,21 @@
 
 Flask-based website that matches (random) quotes with matching images (based on NLTK nouns)
 
+User stories incorporated:
+- [x] Fetch quotes from an external service 
+- [x] Share ‘quotes’ on social media, like Facebook or Twitter
+- [x] Create a mobile friendly application, keeping different devices in mind
+- [ ] Allow users to rate quotes and view other people their ratings
+- [ ] Tweak the random quote logic to prioritize showing highly rated quotes to new users
+- [ ] Find quotes comparable to the currently shown quote
+- [ ] Create a slideshow of random quotes being shown
+
+Plus:
+- [x] Match image with quote, based on nouns (NLTK)
+- [x] Allow users to register and login
+- [x] Allow users to store quote-image combination
+- [x] Allow users to retrieve stored/bookmarked quote-image combinations
+
 ### Prerequisites
 
 - Python3.6 : This website depends on features like f-strings that were introducing in Python3.6
@@ -11,25 +26,13 @@ Flask-based website that matches (random) quotes with matching images (based on 
 ### Building
 
 1. Fork this repo
-2. Create a Python (at least 3.6 venv):
+2. Create a Python (at least 3.6) venv:
 
 ```
-python3 -m venv venv
+foo@bar:~$ python3 -m venv venv
 ```
 
-3. Make sure that you are working in the venv:
-
-```
-source venv\bin\activate
-```
-
-4. pip install dependencies:
-
-```
-pip install requirements.txt
-```
-
-5. Make sure that root contains a .env file with:
+3. Make sure that root contains a .env file with:
 
 ```
 SECRET_KEY = your-custom-secret-key
@@ -37,13 +40,25 @@ UNSPLASH_API_KEY = your-unsplash-api-key
 
 ```
 
+4. Either run Makefile, or adjust to local settings to install dependencies and initialise db:
+
+```
+foo@bar:~$ make build
+
+OR manually:
+foo@bar:~$ source venv\bin\activate
+foo@bar:~$ pip install requirements.txt
+foo@bar:~$ flask db upgrade
+```
+
 ### Running
 
 In the app folder run:
 
 ```
-flask run
+foo@bar:~$ flask run
 ```
+Make sure that your venv is activated.
 
 For the first run, make sure that you are connected to the internet, as the NLTK library will download additional dependencies.
 
@@ -52,16 +67,18 @@ Follow instructions on ip:port the website is served
 ### Project structure
 
 quote/
-┣ app/ &larr; main app
+┣ app/  &larr; main app
 ┃ ┣ auth/ &larr; authentication blueprints
-┃ ┃ ┣ **init**.py
+┃ ┃ ┣ __init__.py
 ┃ ┃ ┣ forms.py
 ┃ ┃ ┗ routes.py
 ┃ ┣ core/ &larr; core-application blueprints
-┃ ┃ ┣ **init**.py
+┃ ┃ ┣ __init__.py
+┃ ┃ ┣ imageprocessing.py &larr; functions related to image processing
+┃ ┃ ┣ quoteprocessing.py &larr; functions related to quote processing
 ┃ ┃ ┗ routes.py
 ┃ ┣ errors/ &larr; error handling blueprints
-┃ ┃ ┣ **init**.py
+┃ ┃ ┣ __init__.py
 ┃ ┃ ┗ routes.py
 ┃ ┣ static/ &larr; local css (and js) files
 ┃ ┃ ┗ quote.css
@@ -70,29 +87,35 @@ quote/
 ┃ ┃ ┣ 500.html
 ┃ ┃ ┣ base.html
 ┃ ┃ ┣ index.html
-┃ ┃ ┗ login.html
-┃ ┣ **init**.py &larr; application factory
+┃ ┃ ┣ login.html
+┃ ┃ ┗ myquotes.html
+┃ ┣ __init__.py &larr; application factory
+┃ ┣ apicalls.py
 ┃ ┗ models.py &larr; sqlalchemy models
-┣ logs/ &larr; error logs
-┃ ┗ quote.log
-┣ migrations/ &larr; database migations (Alembic)
+┣ logs/
+┣ migrations/ &larr; database migrations
 ┃ ┣ versions/
-┃ ┃ ┗ ac44a84db6d1_users_table.py
+┃ ┃ ┣ 14de25ec54b9_mended_quotes_table.py
+┃ ┃ ┗ a0459fed0538_added_quote_and_author_to_quote_table.py
 ┃ ┣ README
 ┃ ┣ alembic.ini
 ┃ ┣ env.py
 ┃ ┗ script.py.mako
-┣ nltk_data/ &larr; NLTK data (after initial run)
+┣ nltk_data/ &larr; NLTK data storage
 ┃ ┣ taggers/
 ┃ ┗ tokenizers/
-┣ tests/ &larr; (unit tests)
+┃ ┃ ┣ punkt/
+┣ tests/ &larr; nose2 unittests
 ┃ ┗ test_unittests.py
+┣ .env &larr; dotenv file containing api keys
 ┣ .gitignore
-┣ app.db
-┣ config.py &larr; Config of application
-┗ quotes.py
+┣ Makefile
+┣ app.db &larr; sqllite database
+┣ config.py &larr; config
+┣ quotes.py
+┗ readme.MD
 
-Globally the website is structured using an application factory with three blueprints:
+Globally, the website is structured using an application factory with three blueprints:
 
 1. auth, dealing with authentication
 2. core, dealing with core application tasks (matching quotes with images)

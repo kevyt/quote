@@ -13,13 +13,12 @@ def load_user(id):
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = "users"
-
-    id = db.Column("user_id", db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column("password", db.String(128))
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    quotes = db.relationship("Quote", backref="user", lazy="dynamic")
 
     def __repr__(self):
         return "<User {}>".format(self.username)
@@ -29,3 +28,12 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+class Quote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_id = db.Column(db.String(64))
+    quote_id = db.Column(db.String(64))
+    quote = db.Column(db.String(300))
+    author = db.Column(db.String(300))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
