@@ -69,7 +69,7 @@ Follow instructions on ip:port the website is served
 
 * [app/]()
   * [auth/]() &larr; authentication blueprints
-    * [__init__.py])
+    * [__init__.py]()
     * [forms.py]()
     * [routes.py]()
   * [core/]() &larr; core blueprints
@@ -95,7 +95,6 @@ Follow instructions on ip:port the website is served
 * [logs/]()
 * [migrations/]()
   * [versions/]()
-    
     * [14de25ec54b9_mended_quotes_table.py]()
     * [a0459fed0538_added_quote_and_author_to_quote_table.py]()
   * [README]()
@@ -105,7 +104,7 @@ Follow instructions on ip:port the website is served
 * [nltk_data/]()
   * [taggers/]()
   * [tokenizers/]()
-    * [punkt/]())
+    * [punkt/]()
 * [tests/]()
   * [test_unittests.py]()
 * [.env]() &larr; dotenv file containing api keys
