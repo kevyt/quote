@@ -67,54 +67,54 @@ Follow instructions on ip:port the website is served
 ### Project structure
 
 
-* [app/](../tree/master//quote/app)
-  * [auth/](../tree/master//quote/app/auth) &larr; authentication blueprints
-    * [__init__.py](../tree/master//quote/app/auth/__init__.py)
-    * [forms.py](../tree/master//quote/app/auth/forms.py)
-    * [routes.py](../tree/master//quote/app/auth/routes.py)
-  * [core/](../tree/master//quote/app/core) &larr; core blueprints
-    * [__init__.py](../tree/master//quote/app/core/__init__.py)
-    * [imageprocessing.py](../tree/master//quote/app/core/imageprocessing.py)  &larr; image processing functions
-    * [quoteprocessing.py](../tree/master//quote/app/core/quoteprocessing.py)  &larr; quotes processing functions
-    * [routes.py](../tree/master//quote/app/core/routes.py)
-  * [errors/](../tree/master//quote/app/errors) &larr; error blueprints
-    * [__init__.py](../tree/master//quote/app/errors/__init__.py)
-    * [routes.py](../tree/master//quote/app/errors/routes.py)
-  * [static/](../tree/master//quote/app/static)
-    * [quote.css](../tree/master//quote/app/static/quote.css)
-  * [templates/](../tree/master//quote/app/templates)
-    * [404.html](../tree/master//quote/app/templates/404.html)
-    * [500.html](../tree/master//quote/app/templates/500.html)
-    * [base.html](../tree/master//quote/app/templates/base.html)
-    * [index.html](../tree/master//quote/app/templates/index.html)
-    * [login.html](../tree/master//quote/app/templates/login.html)
-    * [myquotes.html](../tree/master//quote/app/templates/myquotes.html)
-  * [__init__.py](../tree/master//quote/app/__init__.py)
-  * [apicalls.py](../tree/master//quote/app/apicalls.py)
-  * [models.py](../tree/master//quote/app/models.py)
-* [logs/](../tree/master//quote/logs)
-* [migrations/](../tree/master//quote/migrations)
-  * [versions/](../tree/master//quote/migrations/versions)
+* [app/](/tree/master//quote/app)
+  * [auth/](/tree/master//quote/app/auth) &larr; authentication blueprints
+    * [__init__.py](/tree/master//quote/app/auth/__init__.py)
+    * [forms.py](/tree/master//quote/app/auth/forms.py)
+    * [routes.py](/tree/master//quote/app/auth/routes.py)
+  * [core/](/tree/master//quote/app/core) &larr; core blueprints
+    * [__init__.py](/tree/master//quote/app/core/__init__.py)
+    * [imageprocessing.py](/tree/master//quote/app/core/imageprocessing.py)  &larr; image processing functions
+    * [quoteprocessing.py](/tree/master//quote/app/core/quoteprocessing.py)  &larr; quotes processing functions
+    * [routes.py](/tree/master//quote/app/core/routes.py)
+  * [errors/](/tree/master//quote/app/errors) &larr; error blueprints
+    * [__init__.py](/tree/master//quote/app/errors/__init__.py)
+    * [routes.py](/tree/master//quote/app/errors/routes.py)
+  * [static/](/tree/master//quote/app/static)
+    * [quote.css](/tree/master//quote/app/static/quote.css)
+  * [templates/](/tree/master//quote/app/templates)
+    * [404.html](/tree/master//quote/app/templates/404.html)
+    * [500.html](/tree/master//quote/app/templates/500.html)
+    * [base.html](/tree/master//quote/app/templates/base.html)
+    * [index.html](/tree/master//quote/app/templates/index.html)
+    * [login.html](/tree/master//quote/app/templates/login.html)
+    * [myquotes.html](/tree/master//quote/app/templates/myquotes.html)
+  * [__init__.py](/tree/master//quote/app/__init__.py)
+  * [apicalls.py](/tree/master//quote/app/apicalls.py)
+  * [models.py](/tree/master//quote/app/models.py)
+* [logs/](/tree/master//quote/logs)
+* [migrations/](/tree/master//quote/migrations)
+  * [versions/](/tree/master//quote/migrations/versions)
     
-    * [14de25ec54b9_mended_quotes_table.py](../tree/master//quote/migrations/versions/14de25ec54b9_mended_quotes_table.py)
-    * [a0459fed0538_added_quote_and_author_to_quote_table.py](../tree/master//quote/migrations/versions/a0459fed0538_added_quote_and_author_to_quote_table.py)
-  * [README](../tree/master//quote/migrations/README)
-  * [alembic.ini](../tree/master//quote/migrations/alembic.ini)
-  * [env.py](../tree/master//quote/migrations/env.py)
-  * [script.py.mako](../tree/master//quote/migrations/script.py.mako)
-* [nltk_data/](../tree/master//quote/nltk_data)
-  * [taggers/](../tree/master//quote/nltk_data/taggers)
-  * [tokenizers/](../tree/master//quote/nltk_data/tokenizers)
-    * [punkt/](../tree/master//quote/nltk_data/tokenizers/punkt)
-* [tests/](../tree/master//quote/tests)
-  * [test_unittests.py](../tree/master//quote/tests/test_unittests.py)
-* [.env](../tree/master//quote/.env) &larr; dotenv file containing api keys
-* [.gitignore](../tree/master//quote/.gitignore)
-* [Makefile](../tree/master//quote/Makefile)
-* [app.db](../tree/master//quote/app.db)
-* [config.py](../tree/master//quote/config.py)
-* [quotes.py](../tree/master//quote/quotes.py)
-* [readme.MD](../tree/master//quote/readme.MD)
+    * [14de25ec54b9_mended_quotes_table.py](/tree/master//quote/migrations/versions/14de25ec54b9_mended_quotes_table.py)
+    * [a0459fed0538_added_quote_and_author_to_quote_table.py](/tree/master//quote/migrations/versions/a0459fed0538_added_quote_and_author_to_quote_table.py)
+  * [README](/tree/master//quote/migrations/README)
+  * [alembic.ini](/tree/master//quote/migrations/alembic.ini)
+  * [env.py](/tree/master//quote/migrations/env.py)
+  * [script.py.mako](/tree/master//quote/migrations/script.py.mako)
+* [nltk_data/](/tree/master//quote/nltk_data)
+  * [taggers/](/tree/master//quote/nltk_data/taggers)
+  * [tokenizers/](/tree/master//quote/nltk_data/tokenizers)
+    * [punkt/](/tree/master//quote/nltk_data/tokenizers/punkt)
+* [tests/](/tree/master//quote/tests)
+  * [test_unittests.py](/tree/master//quote/tests/test_unittests.py)
+* [.env](/tree/master//quote/.env) &larr; dotenv file containing api keys
+* [.gitignore](/tree/master//quote/.gitignore)
+* [Makefile](/tree/master//quote/Makefile)
+* [app.db](/tree/master//quote/app.db)
+* [config.py](/tree/master//quote/config.py)
+* [quotes.py](/tree/master//quote/quotes.py)
+* [readme.MD](/tree/master//quote/readme.MD)
 
 
 
