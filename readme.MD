@@ -25,7 +25,7 @@ Plus:
 
 ### Building
 
-1. Fork this repo
+1. Clone this repo
 2. Create a Python (at least 3.6) venv:
 
 ```
