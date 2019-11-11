@@ -66,54 +66,57 @@ Follow instructions on ip:port the website is served
 
 ### Project structure
 
-quote/
-┣ app/  &larr; main app
-┃ ┣ auth/ &larr; authentication blueprints
-┃ ┃ ┣ __init__.py
-┃ ┃ ┣ forms.py
-┃ ┃ ┗ routes.py
-┃ ┣ core/ &larr; core-application blueprints
-┃ ┃ ┣ __init__.py
-┃ ┃ ┣ imageprocessing.py &larr; functions related to image processing
-┃ ┃ ┣ quoteprocessing.py &larr; functions related to quote processing
-┃ ┃ ┗ routes.py
-┃ ┣ errors/ &larr; error handling blueprints
-┃ ┃ ┣ __init__.py
-┃ ┃ ┗ routes.py
-┃ ┣ static/ &larr; local css (and js) files
-┃ ┃ ┗ quote.css
-┃ ┣ templates/ &larr; jinja2 templates referred to by blueprints
-┃ ┃ ┣ 404.html
-┃ ┃ ┣ 500.html
-┃ ┃ ┣ base.html
-┃ ┃ ┣ index.html
-┃ ┃ ┣ login.html
-┃ ┃ ┗ myquotes.html
-┃ ┣ __init__.py &larr; application factory
-┃ ┣ apicalls.py
-┃ ┗ models.py &larr; sqlalchemy models
-┣ logs/
-┣ migrations/ &larr; database migrations
-┃ ┣ versions/
-┃ ┃ ┣ 14de25ec54b9_mended_quotes_table.py
-┃ ┃ ┗ a0459fed0538_added_quote_and_author_to_quote_table.py
-┃ ┣ README
-┃ ┣ alembic.ini
-┃ ┣ env.py
-┃ ┗ script.py.mako
-┣ nltk_data/ &larr; NLTK data storage
-┃ ┣ taggers/
-┃ ┗ tokenizers/
-┃ ┃ ┣ punkt/
-┣ tests/ &larr; nose2 unittests
-┃ ┗ test_unittests.py
-┣ .env &larr; dotenv file containing api keys
-┣ .gitignore
-┣ Makefile
-┣ app.db &larr; sqllite database
-┣ config.py &larr; config
-┣ quotes.py
-┗ readme.MD
+
+* [app/](./quote/app)
+  * [auth/](./quote/app/auth) &larr; authentication blueprints
+    * [__init__.py](./quote/app/auth/__init__.py)
+    * [forms.py](./quote/app/auth/forms.py)
+    * [routes.py](./quote/app/auth/routes.py)
+  * [core/](./quote/app/core) &larr; core blueprints
+    * [__init__.py](./quote/app/core/__init__.py)
+    * [imageprocessing.py](./quote/app/core/imageprocessing.py)  &larr; image processing functions
+    * [quoteprocessing.py](./quote/app/core/quoteprocessing.py)  &larr; quotes processing functions
+    * [routes.py](./quote/app/core/routes.py)
+  * [errors/](./quote/app/errors) &larr; error blueprints
+    * [__init__.py](./quote/app/errors/__init__.py)
+    * [routes.py](./quote/app/errors/routes.py)
+  * [static/](./quote/app/static)
+    * [quote.css](./quote/app/static/quote.css)
+  * [templates/](./quote/app/templates)
+    * [404.html](./quote/app/templates/404.html)
+    * [500.html](./quote/app/templates/500.html)
+    * [base.html](./quote/app/templates/base.html)
+    * [index.html](./quote/app/templates/index.html)
+    * [login.html](./quote/app/templates/login.html)
+    * [myquotes.html](./quote/app/templates/myquotes.html)
+  * [__init__.py](./quote/app/__init__.py)
+  * [apicalls.py](./quote/app/apicalls.py)
+  * [models.py](./quote/app/models.py)
+* [logs/](./quote/logs)
+* [migrations/](./quote/migrations)
+  * [versions/](./quote/migrations/versions)
+    
+    * [14de25ec54b9_mended_quotes_table.py](./quote/migrations/versions/14de25ec54b9_mended_quotes_table.py)
+    * [a0459fed0538_added_quote_and_author_to_quote_table.py](./quote/migrations/versions/a0459fed0538_added_quote_and_author_to_quote_table.py)
+  * [README](./quote/migrations/README)
+  * [alembic.ini](./quote/migrations/alembic.ini)
+  * [env.py](./quote/migrations/env.py)
+  * [script.py.mako](./quote/migrations/script.py.mako)
+* [nltk_data/](./quote/nltk_data)
+  * [taggers/](./quote/nltk_data/taggers)
+  * [tokenizers/](./quote/nltk_data/tokenizers)
+    * [punkt/](./quote/nltk_data/tokenizers/punkt)
+* [tests/](./quote/tests)
+  * [test_unittests.py](./quote/tests/test_unittests.py)
+* [.env](./quote/.env) &larr; dotenv file containing api keys
+* [.gitignore](./quote/.gitignore)
+* [Makefile](./quote/Makefile)
+* [app.db](./quote/app.db)
+* [config.py](./quote/config.py)
+* [quotes.py](./quote/quotes.py)
+* [readme.MD](./quote/readme.MD)
+
+
 
 Globally, the website is structured using an application factory with three blueprints:
 
