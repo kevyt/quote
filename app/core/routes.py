@@ -25,6 +25,38 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
+@bp.route("/_get_quote")
+def _get_quote():
+    """
+    
+
+    """
+    print("hit")
+    quote, author, quote_id = get_quote()
+    nouns = get_nouns_from_quote(quote)
+    image, image_colour, image_id = get_matching_image(nouns)
+
+    r, g, b = transform_hex_to_rgb(image_colour)
+    font_colour = get_font_colour(image_colour)
+
+    response = {
+        "url": url_for(
+            "core.index", quote_id=quote_id, image_id=image_id, _external=True,
+        ),
+        "image": image,
+        "image_id": image_id,
+        "quote_id": quote_id,
+        "quote": quote,
+        "author": author,
+        "image_colour_r": r,
+        "image_colour_g": g,
+        "image_colour_b": b,
+        "font_colour": font_colour,
+    }
+
+    return jsonify(response)
+
+
 
 @bp.route("/")
 @bp.route("/<quote_id>/<image_id>")

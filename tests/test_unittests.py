@@ -1,9 +1,15 @@
+import os
+
 import unittest
 from unittest.mock import patch
 
 from nose2.tools import params
+from flask import appcontext_pushed, g
 
-from app import create_app
+from app import create_app, db
+from config import basedir
+
+from app.models import User, Quote
 
 from app.core.quoteprocessing import get_nouns_from_quote
 

@@ -6,7 +6,7 @@
 
 <style>
   html {
-    background: url({{payload.image}}) no-repeat center center fixed;
+    background-image: url({{payload.image}}) ;
   }
 
   .quote, .quote-menu {
@@ -20,19 +20,19 @@
 
 <div id="fb-root"></div>
 
-<div class="page-wrap" style="background: rgba({{ payload.image_colour_r }}, {{ payload.image_colour_g }}, {{ payload.image_colour_b }}, 0.6) ;">
+<div class="page-wrap" id="page-wrap" style="background: rgba({{ payload.image_colour_r }}, {{ payload.image_colour_g }}, {{ payload.image_colour_b }}, 0.6) ;">
   
   <p class="quote">
-    {{ payload.quote }} 
+    <div id="quotetext" class="quote">{{ payload.quote }}  </div>
     <br /><br />
-    <i> &mdash; {{ payload.author }}</i>
+    <div id="quoteauthor" class="quote"><i> &mdash; {{ payload.author }}</i></div>
     <br />
 
     <div class="controls">
-        <a href="{{url_for("core.index")}}" class="glyphicon glyphicon-random" style="color: {{payload.font_colour}}; vertical-align: top;"></a>
+        <a href="{{url_for("core.index")}}" class="glyphicon glyphicon-random font-color" style="color: {{payload.font_colour}}; vertical-align: top;"></a>
 
         {% if not current_user.is_anonymous %}
-          <a onclick="save_quote()" class="glyphicon glyphicon-save" style="color: {{payload.font_colour}}; cursor: pointer; vertical-align: top;""> </a>
+          <a onclick="save_quote()" class="glyphicon glyphicon-save font-color" style="color: {{payload.font_colour}}; cursor: pointer; vertical-align: top;""> </a>
         {% endif %}
         <div id="userfeedback" class="quote-menu"></div>
 
@@ -89,6 +89,35 @@ function save_quote() {
     $('#userfeedback').text('Could not save quote');
   });
 };
+
+function load_quote() {
+  $.ajax({
+    'url': '/_get_quote',
+    'success' : function(data) {
+      $('#quotetext').text(data['quote']);
+      $('#quoteauthor').text(data['author']); 
+      $('html').css( "background-image", `url(${data['image']})`);
+      $('#page-wrap').css("background", `rgba(${data['image_colour_r']}, ${data['image_colour_g']}, ${data['image_colour_b']}, 0.6)`);         
+      $('#quote_properties').data('quote_id', data['quote_id']);
+      $('#quote_properties').data('image_id', data['image_id']);
+      $('#quote_properties').data('quote', data['quote']);
+      $('#quote_properties').data('author', data['author']);
+      $('.fb-share-button').data('href', data['url']);
+      $('.twitter-share-button').data('href', data['url']);
+      $('.twitter-share-button').data('text', `${data['quote']} - ${data['author']}`);
+      $('.change-font').css('font-color', data['font_colour']);
+    },
+  }
+
+  )
+}
+
+$(document).ready(function(){
+  setInterval("load_quote()", 10000);
+});
+
 </script>
+
+
 
 {% endblock %}
