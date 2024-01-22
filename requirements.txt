@@ -25,7 +25,7 @@ mccabe==0.6.1
 nltk==3.4.5
 nose2==0.9.1
 pathspec==0.6.0
-Pillow==6.2.1
+Pillow==10.2.0
 pycodestyle==2.5.0
 pyflakes==2.1.1
 python-dateutil==2.8.0
